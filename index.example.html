@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+		<title>CSCape</title>
+
+		<link rel="stylesheet" href="reveal.js/dist/reset.css">
+		<link rel="stylesheet" href="reveal.js/dist/reveal.css">
+		<link rel="stylesheet" href="reveal.js/dist/theme/black.css">
+
+		<!-- Theme used for syntax highlighted code -->
+		<link rel="stylesheet" href="reveal.js/plugin/highlight/monokai.css">
+
+		<style>
+			.slide-background {
+				background-color: #000 !important;
+			}
+		</style>
+	</head>
+	<body>
+		<div class="reveal">
+			<div class="slides">
+				<section>&nbsp;</section>
+				<section data-cscape-check="check_example"><h1>1</h1></section>
+				<section data-cscape-check="check_parallel">
+					<section data-cscape-check-part="a"><h1>2a</h1></section>
+					<section data-cscape-check-part="b"><h1>2b</h1></section>
+					<section data-cscape-check-part="c"><h1>2c</h1></section>
+				</section>
+				<section><h1>3</h1></section>
+			</div>
+		</div>
+
+		<script src="reveal.js/dist/reveal.js"></script>
+		<script src="reveal.js/plugin/notes/notes.js"></script>
+		<script src="reveal.js/plugin/markdown/markdown.js"></script>
+		<script src="reveal.js/plugin/highlight/highlight.js"></script>
+		<script src="revealjs-cscape.js"></script>
+		<script>
+			// More info about initialization & config:
+			// - https://revealjs.com/initialization/
+			// - https://revealjs.com/config/
+			Reveal.initialize({
+				hash: false,
+				controls: false,
+				progress: false,
+				transition: 'none',
+				keyboard: {
+					27: function () { alert("Close with Ctrl+W"); },  // Esc 
+					83: null 							 // disable 'S' key (speaker mode)
+				},
+
+				// Learn about plugins: https://revealjs.com/plugins/
+				plugins: [ RevealMarkdown, RevealHighlight, RevealNotes, RevealCscape ]
+			});
+		</script>
+	</body>
+</html>

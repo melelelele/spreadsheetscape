@@ -1,0 +1,505 @@
+<!doctype html>
+<html lang="de">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SheetScape: Das geheime Geschenkregister</title>
+
+    <link rel="stylesheet" href="reveal.js/dist/reset.css">
+    <link rel="stylesheet" href="reveal.js/dist/reveal.css">
+    <link rel="stylesheet" href="reveal.js/dist/theme/black.css">
+    <link rel="stylesheet" href="story-styles/cscape-story.css">
+
+    <style>
+        body.theme-xmas {
+            --page-bg: #140b0b;
+            --font-main: system-ui, sans-serif;
+            --font-display: system-ui, sans-serif;
+
+            --scene-bg-url: url("../pics/background.jpg");
+            --scene-overlay: radial-gradient(circle at top left, rgba(255, 255, 255, 0.18), transparent 35%),
+            linear-gradient(rgba(38, 10, 10, 0.15), rgba(38, 10, 10, 0.42));
+            --scene-vignette: radial-gradient(circle at center, transparent 45%, rgba(20, 5, 5, 0.48));
+
+            --speaker-x: 3vw;
+            --speaker-bottom: 25vh;
+            --speaker-width: min(24vw, 270px);
+            --speaker-bg: #fff4dc;
+            --speaker-border: #b51f2a;
+            --speaker-border-right: #1f6b3a;
+            --speaker-radius: 22px;
+            --speaker-shadow: 0 16px 42px rgba(0, 0, 0, 0.35);
+
+            --dialogue-left: 3vw;
+            --dialogue-right: 3vw;
+            --dialogue-bottom: 3vh;
+            --dialogue-min-height: 17vh;
+            --dialogue-max-height: 31vh;
+            --dialogue-bg: rgba(255, 248, 232, 0.96);
+            --dialogue-border: #b51f2a;
+            --dialogue-radius: 20px;
+            --dialogue-shadow: 0 16px 48px rgba(0, 0, 0, 0.38);
+
+            --name-color: #b51f2a;
+            --text-color: #281812;
+            --objective-color: #1f6b3a;
+            --task-bg: #fff8e8;
+            --task-border: #b51f2a;
+            --task-color: #281812;
+
+            --name-size: clamp(0.7rem, 1.1vw, 0.95rem);
+            --text-size: clamp(0.9rem, 1.55vw, 1.35rem);
+            --task-size: clamp(0.65rem, 1.05vw, 0.95rem);
+
+            --video-character-width: min(38vw, 540px);
+            --video-character-height: 92vh;
+            --video-task-width: min(76vw, 960px);
+            --video-character-bottom: 5vh;
+            --video-character-side-offset: 6vw;
+            --hybrid-character-width: min(34vw, 500px);
+            --hybrid-character-height: 90vh;
+        }
+
+        body.theme-xmas .text {
+            line-height: 1.36;
+        }
+
+        body.theme-xmas .name,
+        body.theme-xmas .video-task {
+            font-weight: 900;
+        }
+
+        body.theme-xmas .audio-hint {
+            background: rgba(255, 248, 232, 0.95);
+            color: #281812;
+            border-color: #b51f2a;
+        }
+    </style>
+</head>
+
+<body class="theme-xmas">
+<div class="reveal">
+    <div class="slides">
+
+        <section data-layout="dialogue"
+                 data-speaker="Weihnachtsmann"
+                 data-avatar="pics/weihnachtsmann.jpg"
+                 data-side="left"
+                 data-dialogue="Ho ho ho... gut, dass du da bist. Das geheime Geschenkregister spielt verrückt. Aber der Schlitten wartet schon und jedes Kind muss heute noch sein Geschenk bekommen! Wir brauchen also schnell deine Hilfe!"
+                 data-task="Klicke einmal, damit Musik, Sounds und Stimmen starten."
+                 data-after-ready-delay="1"
+                 data-music="sounds/christmas.mp3"
+                 data-music-volume="0.24"
+                 data-audio-1-src="sounds/hohoho.mp3"
+                 data-audio-1-phase="before-text"
+                 data-audio-1-volume="0.85"
+                 data-audio-2-type="tts"
+                 data-audio-2-phase="start"
+                 data-audio-2-text-from="dialogue"
+                 data-audio-2-voice="de-DE-ConradNeural">
+            <div class="scene"></div>
+        </section>
+
+
+        <section data-layout="dialogue"
+                 data-speaker="Elli"
+                 data-avatar="pics/elli.jpg"
+                 data-side="right"
+                 data-dialogue="Am besten, du trägst erst mal deinen Namen in das Geschenkeregister ein!"
+                 data-task="Trage deinen Namen in Zelle B1 ein."
+                 data-audio-1-type="tts"
+                 data-audio-1-phase="start"
+                 data-audio-1-text-from="dialogue"
+                 data-audio-1-voice="de-DE-KatjaNeural">
+            <div class="scene"></div>
+        </section>
+
+        <section data-layout="dialogue"
+                 data-cscape-check="check_name_done"
+                 data-speaker="Rudi"
+                 data-avatar="pics/rudi.jpg"
+                 data-side="left"
+                 data-dialogue="Perfekt, {player}! Dein Name ist gespeichert. Jetzt können wir die Geschenkzahlen retten."
+                 data-task=""
+                 data-after-ready-delay="3"
+                 data-audio-1-src="sounds/bells.mp3"
+                 data-audio-1-volume="0.28"
+                 data-audio-2-type="tts"
+                 data-audio-2-phase="start"
+                 data-audio-2-text-from="dialogue"
+                 data-audio-2-voice="de-DE-KillianNeural">
+            <div class="scene"></div>
+        </section>
+
+
+        <section data-layout="dialogue"
+                 data-speaker="Elli"
+                 data-avatar="pics/elli.jpg"
+                 data-side="right"
+                 data-dialogue="{player}, die erste Werkstattmeldung ist kaputt. Die Nordwerkstatt hat zwei Geschenkstapel gezählt, aber das Ergebnis fehlt."
+                 data-task="Berechne in D4: =B4+C4"
+                 data-audio-1-type="tts"
+                 data-audio-1-phase="start"
+                 data-audio-1-text-from="dialogue"
+                 data-audio-1-voice="de-DE-KatjaNeural">
+            <div class="scene"></div>
+        </section>
+
+        <section data-layout="dialogue"
+                 data-cscape-check="check_first_sum_done"
+                 data-speaker="Weihnachtsmann"
+                 data-avatar="pics/weihnachtsmann.jpg"
+                 data-side="left"
+                 data-dialogue="Sehr schön, {player}. Die erste verlorene Zahl ist dank dir schon wieder im Geschenkregister!"
+                 data-task=""
+                 data-after-ready-delay="1"
+
+                 data-audio-1-src="sounds/hohoho.mp3"
+                 data-audio-1-phase="before-text"
+                 data-audio-1-volume="0.85"
+                 data-audio-2-type="tts"
+                 data-audio-2-phase="start"
+                 data-audio-2-text-from="dialogue"
+                 data-audio-2-voice="de-DE-ConradNeural">
+            <div class="scene"></div>
+        </section>
+
+
+        <section data-layout="dialogue"
+                 data-speaker="Elli"
+                 data-avatar="pics/elli.jpg"
+                 data-side="right"
+                 data-dialogue="Da fehlen noch Zahlen von zwei Werkstätten. Wenn die Zahlen nicht stimmen, bekommen vielleicht nicht alle Kinder ihr Geschenk!"
+                 data-task="Berechne D5 und D6 ebenfalls mit passenden Formeln. Tipp: du hast die Formel gerade schon verwendet. Ziehe die Zelle am blauen Kästchen einfach nach unten, um das Muster zu übernehmen."
+                 data-audio-1-type="tts"
+                 data-audio-1-phase="start"
+                 data-audio-1-text-from="dialogue"
+                 data-audio-1-voice="de-DE-KatjaNeural">
+            <div class="scene"></div>
+        </section>
+
+
+        <section data-layout="dialogue"
+                 data-speaker="Rudi"
+                 data-avatar="pics/rudi.jpg"
+                 data-side="left"
+                 data-cscape-check="check_all_sums_done"
+                 data-dialogue="Alle Werkstattzahlen sind wieder da. Das war saubere Arbeit, {player}."
+                 data-after-ready-delay="3"
+                 data-audio-1-src="sounds/bells.mp3"
+                 data-audio-1-volume="0.28"
+                 data-audio-2-type="tts"
+                 data-audio-2-phase="start"
+                 data-audio-2-text-from="dialogue"
+                 data-audio-2-voice="de-DE-KillianNeural">
+            <div class="scene"></div>
+        </section>
+        <section data-layout="dialogue"
+                 data-speaker="Weihnachtsmann"
+                 data-avatar="pics/weihnachtsmann.jpg"
+                 data-side="left"
+                 data-dialogue="Jetzt braucht der Schlitten die Gesamtzahl aller Geschenke, damit Rudi weiß, wie viele Rentierfreunde er braucht, um den Weihnachtsschlitten ziehen zu können."
+                 data-task="Berechne in D7 die Summe aus D4 bis D6. Tipp: =SUMME(D4:D6)"
+
+                 data-audio-1-src="sounds/hohoho.mp3"
+                 data-audio-1-phase="before-text"
+                 data-audio-1-volume="0.85"
+                 data-audio-2-type="tts"
+                 data-audio-2-phase="start"
+                 data-audio-2-text-from="dialogue"
+                 data-audio-2-voice="de-DE-ConradNeural">
+            <div class="scene"></div>
+        </section>
+
+
+        <section data-layout="dialogue"
+                 data-cscape-check="check_total_done"
+                 data-speaker="Weihnachtsmann"
+                 data-avatar="pics/weihnachtsmann.jpg"
+                 data-side="left"
+                 data-dialogue="Die Gesamtzahl stimmt! Aber das Register ist noch nicht vollständig repariert."
+                 data-after-ready-delay="1"
+
+                 data-audio-1-src="sounds/hohoho.mp3"
+                 data-audio-1-phase="before-text"
+                 data-audio-1-volume="0.85"
+                 data-audio-2-type="tts"
+                 data-audio-2-phase="start"
+                 data-audio-2-text-from="dialogue"
+                 data-audio-2-voice="de-DE-ConradNeural">
+            <div class="scene"></div>
+        </section>
+
+
+        <section data-layout="dialogue"
+                 data-speaker="Elli"
+                 data-avatar="pics/elli.jpg"
+                 data-side="right"
+                 data-dialogue="Im Geschenkregister fehlen einige Geschenkcodes. Die Weihnachtswichtel brauchen sie, damit sie zuordnen können, in welchem Lager das jeweilige Geschenk liegt. Zum Glück entstehen sie ganz einfach aus dem Namen und dem Geschenk."
+                 data-task='Erstelle die fehlenden Codes in D10, D11, G10 und G11. Tipp für die erste Zeile: =A10&"-"&B10 und im Archiv: =F10&"-"&H10'
+                 data-audio-1-type="tts"
+                 data-audio-1-phase="start"
+                 data-audio-1-text-from="dialogue"
+                 data-audio-1-voice="de-DE-KatjaNeural">
+            <div class="scene"></div>
+        </section>
+
+
+        <section data-layout="dialogue"
+                 data-cscape-check="check_combo_codes_done"
+                 data-speaker="Weihnachtsmann"
+                 data-avatar="pics/weihnachtsmann.jpg"
+                 data-side="left"
+                 data-dialogue="Super! Die fehlenden Geschenkcodes sind wiederhergestellt."
+                 data-task=""
+                 data-after-ready-delay="1"
+
+                 data-audio-1-src="sounds/hohoho.mp3"
+                 data-audio-1-phase="before-text"
+                 data-audio-1-volume="0.85"
+                 data-audio-2-type="tts"
+                 data-audio-2-phase="start"
+                 data-audio-2-text-from="dialogue"
+                 data-audio-2-voice="de-DE-ConradNeural">
+            <div class="scene"></div>
+        </section>
+
+
+        <section data-layout="dialogue"
+                 data-speaker="Elli"
+                 data-avatar="pics/elli.jpg"
+                 data-side="right"
+                 data-dialogue="Jetzt fehlen noch die Geschenke von Lio und Ava. Ihre Geschenkcodes stehen schon im Register. Suche damit im Archiv nach den passenden Geschenken."
+                 data-task='Trage in B12 und B13 die passenden Geschenke ein. Tipp für B12: =SVERWEIS(D12;$G$10:$H$17;2;FALSCH)'
+                 data-audio-1-type="tts"
+                 data-audio-1-phase="start"
+                 data-audio-1-text-from="dialogue"
+                 data-audio-1-voice="de-DE-KatjaNeural">
+            <div class="scene"></div>
+        </section>
+
+
+        <section data-layout="dialogue"
+                 data-speaker="Rudi"
+                 data-avatar="pics/rudi.jpg"
+                 data-side="left"
+                 data-cscape-check="check_lookup_gifts_done"
+
+                 data-dialogue="Gefunden! Lio bekommt das Märchenbuch und Ava bekommt den Kompass."
+                 data-after-ready-delay="3"
+                 data-audio-1-src="sounds/bells.mp3"
+                 data-audio-1-volume="0.28"
+                 data-audio-2-type="tts"
+                 data-audio-2-phase="start"
+                 data-audio-2-text-from="dialogue"
+                 data-audio-2-voice="de-DE-KillianNeural">
+            <div class="scene"></div>
+        </section>
+        <section data-layout="dialogue"
+                 data-speaker="Weihnachtsmann"
+                 data-avatar="pics/weihnachtsmann.jpg"
+                 data-side="left"
+                 data-dialogue="Jetzt müssen wir prüfen, ob alle Geschenke wirklich verpackt sind."
+                 data-task="Zähle in C16, wie oft im Bereich C10:C13 der Status 'verpackt' vorkommt. Tipp: =ZÄHLENWENN(C10:C13;B16)"
+                 data-audio-1-src="sounds/hohoho.mp3"
+                 data-audio-1-phase="before-text"
+                 data-audio-1-volume="0.85"
+                 data-audio-2-type="tts"
+                 data-audio-2-phase="start"
+                 data-audio-2-text-from="dialogue"
+                 data-audio-2-voice="de-DE-ConradNeural">
+            <div class="scene"></div>
+        </section>
+
+        <section data-layout="dialogue"
+                 data-cscape-check="check_count_wrapped_done"
+                 data-speaker="Rudi"
+                 data-avatar="pics/rudi.jpg"
+                 data-side="left"
+                 data-dialogue="Vier Geschenke sind verpackt. Das sieht schon sehr gut aus!"
+                 data-after-ready-delay="3"
+                 data-audio-1-src="sounds/bells.mp3"
+                 data-audio-1-volume="0.28"
+                 data-audio-2-type="tts"
+                 data-audio-2-phase="start"
+                 data-audio-2-text-from="dialogue"
+                 data-audio-2-voice="de-DE-KillianNeural">
+            <div class="scene"></div>
+        </section>
+
+
+        <section data-layout="dialogue"
+                 data-speaker="Elli"
+                 data-avatar="pics/elli.jpg"
+                 data-side="right"
+                 data-dialogue="Zur Sicherheit prüfen wir jetzt, ob noch offene Geschenke übrig sind."
+                 data-task="Zähle in C17, wie oft im Bereich C10:C13 der Status 'offen' vorkommt. Tipp: =ZÄHLENWENN(C10:C13;B17)"
+                 data-audio-1-type="tts"
+                 data-audio-1-phase="start"
+                 data-audio-1-text-from="dialogue"
+                 data-audio-1-voice="de-DE-KatjaNeural">
+            <div class="scene"></div>
+        </section>
+
+
+        <section data-layout="dialogue"
+                 data-speaker="Elli"
+                 data-cscape-check="check_open_count_done"
+                 data-avatar="pics/elli.jpg"
+                 data-side="right"
+                 data-dialogue="Kein Geschenk ist mehr offen. Das Archiv sieht schon wieder sehr aufgeräumt aus!"
+                 data-after-ready-delay="1"
+                 data-audio-1-type="tts"
+                 data-audio-1-phase="start"
+                 data-audio-1-text-from="dialogue"
+                 data-audio-1-voice="de-DE-KatjaNeural">
+            <div class="scene"></div>
+        </section>
+
+        <section data-layout="dialogue"
+                 data-speaker="Weihnachtsmann"
+                 data-avatar="pics/weihnachtsmann.jpg"
+                 data-side="left"
+                 data-dialogue="Eine letzte Sache fehlt noch: Jetzt brauchen wir eine logische Entscheidung. Wenn keine Geschenke offen sind, ist der Schlitten startklar."
+                 data-task='Schreibe in C18 mit WENN eine Entscheidung. Tipp: =WENN(C17=0;"startklar";"warten")'
+                 data-audio-1-src="sounds/hohoho.mp3"
+                 data-audio-1-phase="before-text"
+                 data-audio-1-volume="0.85"
+                 data-audio-2-type="tts"
+                 data-audio-2-phase="start"
+                 data-audio-2-text-from="dialogue"
+                 data-audio-2-voice="de-DE-ConradNeural">
+            <div class="scene"></div>
+        </section>
+
+
+        <section data-layout="dialogue"
+                 data-cscape-check="check_sleigh_status_done"
+                 data-speaker="Rudi"
+                 data-avatar="pics/rudi.jpg"
+                 data-side="left"
+                 data-dialogue="Startklar! Genau das wollte ich hören. Jetzt kann nichts mehr schief gehen!"
+                 data-task=""
+                 data-after-ready-delay="3"
+                 data-audio-1-src="sounds/bells.mp3"
+                 data-audio-1-volume="0.28"
+                 data-audio-2-type="tts"
+                 data-audio-2-phase="start"
+                 data-audio-2-text-from="dialogue"
+                 data-audio-2-voice="de-DE-KillianNeural">
+            <div class="scene"></div>
+        </section>
+
+
+        <section data-layout="dialogue"
+                 data-speaker="Weihnachtsmann"
+                 data-avatar="pics/weihnachtsmann.jpg"
+                 data-side="left"
+                 data-background="pics/snow.jpg"
+                 data-dialogue="Ho ho ho! Das geheime Geschenkregister ist vollständig repariert. Weihnachten ist gerettet. Danke, {player}!"
+                 data-task="Geschafft: Du hast Namen gespeichert, Formeln berechnet, Summen geprüft, Codes gebaut und das Geschenkregister repariert."
+                 data-after-ready-delay="1"
+                 data-audio-1-src="sounds/hohoho.mp3"
+                 data-audio-1-phase="before-text"
+                 data-audio-1-volume="0.85"
+                 data-audio-2-type="tts"
+                 data-audio-2-phase="start"
+                 data-audio-2-text-from="dialogue"
+                 data-audio-2-voice="de-DE-ConradNeural">
+            <div class="scene"></div>
+        </section>
+
+    </div>
+</div>
+
+
+<script src="reveal.js/dist/reveal.js"></script>
+<script src="revealjs-cscape.js"></script>
+
+<script>
+    (() => {
+        let storyPlayerName = "Spieler";
+
+        async function fetchWithTimeout(url, timeoutMs = 3000) {
+            const controller = new AbortController();
+            const timeout = window.setTimeout(() => controller.abort(), timeoutMs);
+
+            try {
+                return await fetch(url, {
+                    signal: controller.signal,
+                    cache: "no-store"
+                });
+            } finally {
+                window.clearTimeout(timeout);
+            }
+        }
+
+        async function loadPlayerNameFromDataStore() {
+            try {
+                const response = await fetchWithTimeout("http://localhost:5000/game_data_store", 3000);
+                if (!response.ok) throw new Error(`HTTP ${response.status}`);
+
+                const data = await response.json();
+                const name = String(data.name || data.player || data.playerName || "").trim();
+                storyPlayerName = name || "Spieler";
+            } catch (error) {
+                console.warn("[CSCAPE] Could not load player name from data store:", error.message);
+                storyPlayerName = storyPlayerName || "Spieler";
+            }
+
+            return storyPlayerName;
+        }
+
+        function formatStoryText(text) {
+            return String(text || "").replaceAll("{player}", storyPlayerName || "Spieler");
+        }
+
+        window.CSCAPE_STORY = {
+            blockNavigationUntilReady: true,
+            ttsUrl: "http://localhost:8765/tts",
+            defaultVoice: "de-DE-KatjaNeural",
+            defaultTtsRate: "+0%",
+            defaultTtsPitch: "+0Hz",
+
+            defaultMusic: "sounds/christmas.mp3",
+
+            musicVolume: 0.24,
+            soundVolume: 0.82,
+            typeSpeed: 24,
+            defaultLayout: "dialogue",
+            defaultTextMode: "type",
+            audioHintText: "Klick für Musik & Sounds",
+
+            formatText: formatStoryText,
+
+            async beforeSlide() {
+                await loadPlayerNameFromDataStore();
+            }
+        };
+    })();
+</script>
+
+<script src="story-styles/cscape-story.js"></script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", () => {
+        window.CSCAPE_STORY_API.init();
+
+        Reveal.initialize({
+            hash: false,
+            controls: false,
+            progress: false,
+            transition: "none",
+            center: false,
+            keyboard: {
+                27: () => alert("Close with Ctrl+W"),
+                83: null
+            },
+            plugins: [
+                RevealCscape
+            ]
+        });
+    });
+</script>
+</body>
+</html>

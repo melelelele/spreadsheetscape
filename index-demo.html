@@ -1,0 +1,494 @@
+<!doctype html>
+<html lang="de">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SheetScape: Das geheime Geschenkregister</title>
+
+    <link rel="stylesheet" href="reveal.js/dist/reset.css">
+    <link rel="stylesheet" href="reveal.js/dist/reveal.css">
+    <link rel="stylesheet" href="reveal.js/dist/theme/black.css">
+    <link rel="stylesheet" href="story-styles/cscape-story.css">
+
+    <style>
+        body.theme-xmas {
+            --page-bg: #140b0b;
+            --font-main: system-ui, sans-serif;
+            --font-display: system-ui, sans-serif;
+
+            --scene-bg-url: url("pics/background.jpg");
+            --scene-overlay: radial-gradient(circle at top left, rgba(255, 255, 255, 0.18), transparent 35%),
+            linear-gradient(rgba(38, 10, 10, 0.15), rgba(38, 10, 10, 0.42));
+            --scene-vignette: radial-gradient(circle at center, transparent 45%, rgba(20, 5, 5, 0.48));
+
+            --speaker-x: 3vw;
+            --speaker-bottom: 25vh;
+            --speaker-width: min(24vw, 270px);
+            --speaker-bg: #fff4dc;
+            --speaker-border: #b51f2a;
+            --speaker-border-right: #1f6b3a;
+            --speaker-radius: 22px;
+            --speaker-shadow: 0 16px 42px rgba(0, 0, 0, 0.35);
+
+            --dialogue-left: 3vw;
+            --dialogue-right: 3vw;
+            --dialogue-bottom: 3vh;
+            --dialogue-min-height: 17vh;
+            --dialogue-max-height: 31vh;
+            --dialogue-bg: rgba(255, 248, 232, 0.96);
+            --dialogue-border: #b51f2a;
+            --dialogue-radius: 20px;
+            --dialogue-shadow: 0 16px 48px rgba(0, 0, 0, 0.38);
+
+            --name-color: #b51f2a;
+            --text-color: #281812;
+            --objective-color: #1f6b3a;
+            --task-bg: #fff8e8;
+            --task-border: #b51f2a;
+            --task-color: #281812;
+
+            --name-size: clamp(0.7rem, 1.1vw, 0.95rem);
+            --text-size: clamp(0.9rem, 1.55vw, 1.35rem);
+            --task-size: clamp(0.65rem, 1.05vw, 0.95rem);
+
+            --video-character-width: min(38vw, 540px);
+            --video-character-height: 92vh;
+            --video-task-width: min(76vw, 960px);
+            --video-character-bottom: 5vh;
+            --video-character-side-offset: 6vw;
+            --hybrid-character-width: min(34vw, 500px);
+            --hybrid-character-height: 90vh;
+        }
+
+        body.theme-xmas .text {
+            line-height: 1.36;
+        }
+
+        body.theme-xmas .name,
+        body.theme-xmas .video-task {
+            font-weight: 900;
+        }
+
+        body.theme-xmas .audio-hint {
+            background: rgba(255, 248, 232, 0.95);
+            color: #281812;
+            border-color: #b51f2a;
+        }
+    </style>
+</head>
+
+<body class="theme-xmas">
+<div class="reveal">
+    <div class="slides">
+
+        <section data-layout="hybrid"
+                 data-speaker="Weihnachtsmann"
+                 data-avatar="pics/weihnachtsmann.jpg"
+                 data-side="left"
+                 data-dialogue="Ho ho ho... gut, dass du da bist, {player}. Das geheime Geschenkregister spielt verrückt. Der Schlitten wartet schon, aber ohne die richtigen Zahlen bekommt niemand sein Geschenk."
+                 data-task="Klicke einmal, damit Musik, Sounds und Stimmen starten."
+                 data-after-ready-delay="2"
+                 data-music="sounds/christmas.mp3"
+                 data-music-volume="0.24"
+                 data-audio-1-src="sounds/hohoho.mp3"
+                 data-audio-1-phase="before-text"
+                 data-audio-1-volume="0.85"
+                 data-audio-2-type="tts"
+                 data-audio-2-phase="start"
+                 data-audio-2-text-from="dialogue"
+                 data-audio-2-voice="de-DE-ConradNeural">
+            <div class="scene"></div>
+        </section>
+
+        <section data-layout="dialogue"
+                 data-speaker="Elli"
+                 data-avatar="pics/elli.jpg"
+                 data-side="right"
+                 data-dialogue="Testfolie eins: Erst läuft ein Sound vollständig durch. Danach beginnt der Text mit TTS. Diese Folie prüft before-text und sauberes Warten."
+                 data-task="Test: before-text Sound blockiert korrekt vor Text und TTS."
+                 data-after-ready-delay="1"
+                 data-audio-1-src="sounds/crunch.mp3"
+                 data-audio-1-phase="before-text"
+                 data-audio-2-type="tts"
+                 data-audio-2-phase="start"
+                 data-audio-2-text-from="dialogue"
+                 data-audio-2-voice="de-DE-KatjaNeural">
+            <div class="scene"></div>
+        </section>
+
+        <section data-layout="video"
+                 data-speaker="Elli"
+                 data-avatar="pics/elli.jpg"
+                 data-side="right"
+                 data-text-mode="none"
+                 data-dialogue="Trage zuerst deinen Namen in das Geschenkregister ein. Dann weiß das System, wer Weihnachten rettet."
+                 data-task="Trage deinen Namen in Zelle B1 ein."
+                 data-audio-1-type="tts"
+                 data-audio-1-phase="start"
+                 data-audio-1-text-from="dialogue"
+                 data-audio-1-voice="de-DE-KatjaNeural">
+            <div class="scene"></div>
+        </section>
+
+        <section data-layout="dialogue"
+                 data-cscape-check="check_name_done"
+                 data-speaker="Rudi"
+                 data-avatar="pics/rudi.jpg"
+                 data-side="left"
+                 data-text-mode="instant"
+                 data-dialogue="Perfekt, {player}! Dein Name ist gespeichert. Jetzt können wir die Geschenkzahlen retten."
+                 data-task=""
+                 data-ready-sound="sounds/bells.mp3"
+                 data-ready-sound-volume="0.75"
+                 data-after-ready-delay="1">
+            <div class="scene"></div>
+        </section>
+
+        <section data-layout="dialogue"
+                 data-speaker="Weihnachtsmann"
+                 data-avatar="pics/weihnachtsmann.jpg"
+                 data-side="left"
+                 data-dialogue="Testfolie zwei: Hier ist der sichtbare Text anders als der gesprochene Text. Du liest diese Meldung, aber die Stimme sagt etwas anderes."
+                 data-task="Test: sichtbarer Text ungleich TTS-Text."
+                 data-after-ready-delay="1"
+                 data-audio-1-type="tts"
+                 data-audio-1-phase="start"
+                 data-audio-1-text="Dies ist der gesprochene Testtext. Er unterscheidet sich absichtlich vom sichtbaren Dialog."
+                 data-audio-1-voice="de-DE-ConradNeural">
+            <div class="scene"></div>
+        </section>
+
+        <section data-layout="dialogue"
+                 data-speaker="Elli"
+                 data-avatar="pics/elli.jpg"
+                 data-side="right"
+                 data-dialogue="{player}, die erste Werkstattmeldung ist kaputt. Die Nordwerkstatt hat zwei Geschenkstapel gezählt, aber das Ergebnis fehlt."
+                 data-task="Berechne in D4: =B4+C4"
+                 data-audio-1-type="tts"
+                 data-audio-1-phase="start"
+                 data-audio-1-text-from="dialogue"
+                 data-audio-1-voice="de-DE-KatjaNeural">
+            <div class="scene"></div>
+        </section>
+
+        <section data-layout="dialogue"
+                 data-cscape-check="check_first_sum_done"
+                 data-speaker="Weihnachtsmann"
+                 data-avatar="pics/weihnachtsmann.jpg"
+                 data-side="left"
+                 data-dialogue="Sehr gut. Die erste Zahl ist wieder im Register. Jetzt können die Wichtel weiter sortieren."
+                 data-task=""
+                 data-after-ready-delay="1"
+                 data-ready-sound="sounds/bells.mp3"
+                 data-ready-sound-volume="0.75"
+                 data-audio-1-type="tts"
+                 data-audio-1-phase="start"
+                 data-audio-1-text-from="dialogue"
+                 data-audio-1-voice="de-DE-ConradNeural">
+            <div class="scene"></div>
+        </section>
+
+        <section data-layout="dialogue"
+                 data-speaker="Rudi"
+                 data-avatar="pics/rudi.jpg"
+                 data-side="right"
+                 data-dialogue="Testfolie drei: Jetzt laufen mehrere Audios nacheinander. Erst knirscht es, dann spricht die Stimme, dann klingelt die Glocke nach dem Text."
+                 data-task="Test: sequence und after-text."
+                 data-after-ready-delay="1"
+                 data-audio-1-src="sounds/crunch.mp3"
+                 data-audio-1-phase="before-text"
+                 data-audio-2-type="tts"
+                 data-audio-2-phase="before-text"
+                 data-audio-2-text="Sequenztest. Dieser Satz läuft erst nach dem ersten Sound."
+                 data-audio-2-voice="de-DE-KillianNeural"
+                 data-audio-3-src="sounds/bells.mp3"
+                 data-audio-3-phase="after-text"
+                 data-audio-3-volume="0.75">
+            <div class="scene"></div>
+        </section>
+
+        <section data-layout="dialogue"
+                 data-speaker="Elli"
+                 data-avatar="pics/elli.jpg"
+                 data-side="right"
+                 data-dialogue="Die Süd- und Westwerkstatt meldet zwei weitere Stapel. Auch dort fehlt das Ergebnis. Wenn wir die Formel richtig nutzen, schaffen wir das schneller."
+                 data-task="Berechne in D5 und D6 ebenfalls die Summe aus B5 bzw. B6 und C5 bzw. C6."
+                 data-audio-1-type="tts"
+                 data-audio-1-phase="start"
+                 data-audio-1-text-from="dialogue"
+                 data-audio-1-voice="de-DE-KatjaNeural">
+            <div class="scene"></div>
+        </section>
+
+        <section data-layout="hybrid"
+                 data-speaker="Elli"
+                 data-cscape-check="check_all_sums_done"
+                 data-avatar="pics/elli.jpg"
+                 data-side="right"
+                 data-dialogue="Testfolie vier: Glocke und Stimme starten jetzt ausdrücklich parallel. Erst wenn beide fertig sind und der Text fertig ist, geht es weiter."
+                 data-task="Test: parallel."
+                 data-after-ready-delay="1"
+                 data-audio-1-src="sounds/bells.mp3"
+                 data-audio-1-phase="start"
+                 data-audio-1-mode="parallel"
+                 data-audio-1-group="parallel-demo"
+                 data-audio-1-volume="0.75"
+                 data-audio-2-type="tts"
+                 data-audio-2-phase="start"
+                 data-audio-2-mode="parallel"
+                 data-audio-2-group="parallel-demo"
+                 data-audio-2-text="Paralleltest. Diese Stimme läuft gleichzeitig mit der Glocke."
+                 data-audio-2-voice="de-DE-KatjaNeural">
+            <div class="scene"></div>
+        </section>
+
+        <section data-layout="dialogue"
+                 data-speaker="Weihnachtsmann"
+                 data-avatar="pics/weihnachtsmann.jpg"
+                 data-side="left"
+                 data-dialogue="Jetzt brauchen wir die Gesamtzahl aller geretteten Geschenke. Ohne diese Summe kann der Schlitten nicht beladen werden."
+                 data-task="Berechne in D7 die Summe aus D4 bis D6. Tipp: =SUMME(D4:D6)"
+                 data-audio-1-type="tts"
+                 data-audio-1-phase="start"
+                 data-audio-1-text-from="dialogue"
+                 data-audio-1-voice="de-DE-ConradNeural">
+            <div class="scene"></div>
+        </section>
+
+        <section data-layout="video"
+                 data-speaker="Rudi"
+                 data-avatar="pics/rudi.jpg"
+                 data-side="left"
+                 data-cscape-check="check_total_done"
+                 data-text-mode="none"
+                 data-dialogue="Testfolie fünf: Auf dieser Folie läuft ein normaler Loop. Er darf die Folie nicht blockieren und muss beim Verlassen stoppen."
+                 data-task="Test: nicht-persistenter Loop stoppt beim nächsten Slide."
+                 data-after-ready-delay="3"
+                 data-audio-1-src="sounds/bells.mp3"
+                 data-audio-1-phase="start"
+                 data-audio-1-loop="true"
+                 data-audio-1-volume="0.28"
+                 data-audio-2-type="tts"
+                 data-audio-2-phase="start"
+                 data-audio-2-text-from="dialogue"
+                 data-audio-2-voice="de-DE-KillianNeural">
+            <div class="scene"></div>
+        </section>
+
+        <section data-layout="dialogue"
+                 data-speaker="Elli"
+                 data-avatar="pics/elli.jpg"
+                 data-side="right"
+                 data-dialogue="Jetzt starte ich einen persistenten Werkstatt-Loop. Er soll über mehrere Folien weiterlaufen, bis wir ihn später gezielt stoppen."
+                 data-task="Test: persistenter Loop startet mit ID workshop-loop."
+                 data-after-ready-delay="2"
+                 data-audio-1-src="sounds/crunch.mp3"
+                 data-audio-1-phase="start"
+                 data-audio-1-loop="true"
+                 data-audio-1-persistent="true"
+                 data-audio-1-id="workshop-loop"
+                 data-audio-1-volume="0.24"
+                 data-audio-2-type="tts"
+                 data-audio-2-phase="start"
+                 data-audio-2-text-from="dialogue"
+                 data-audio-2-voice="de-DE-KatjaNeural">
+            <div class="scene"></div>
+        </section>
+
+        <section data-layout="dialogue"
+                 data-cscape-check="check_total_done"
+                 data-speaker="Weihnachtsmann"
+                 data-avatar="pics/weihnachtsmann.jpg"
+                 data-side="left"
+                 data-dialogue="Fantastisch, {player}. Die Gesamtzahl stimmt. Die Geschenklisten sind wieder stabil."
+                 data-task=""
+                 data-after-ready-delay="1"
+                 data-ready-sound="sounds/bells.mp3"
+                 data-ready-sound-volume="0.75"
+                 data-audio-1-type="tts"
+                 data-audio-1-phase="start"
+                 data-audio-1-text-from="dialogue"
+                 data-audio-1-voice="de-DE-ConradNeural">
+            <div class="scene"></div>
+        </section>
+
+        <section data-layout="dialogue"
+                 data-speaker="Rudi"
+                 data-avatar="pics/rudi.jpg"
+                 data-side="right"
+                 data-dialogue="Testfolie sechs: Der persistente Werkstatt-Loop wird jetzt gestoppt. Danach sollte wieder Ruhe sein."
+                 data-task="Test: persistenten Loop stoppen."
+                 data-after-ready-delay="1"
+                 data-audio-1-type="stop-loop"
+                 data-audio-1-phase="before-text"
+                 data-audio-1-stop="workshop-loop"
+                 data-audio-2-type="tts"
+                 data-audio-2-phase="start"
+                 data-audio-2-text-from="dialogue"
+                 data-audio-2-voice="de-DE-KillianNeural"
+                 data-audio-3-src="sounds/bells.mp3"
+                 data-audio-3-phase="after-text"
+                 data-audio-3-volume="0.75">
+            <div class="scene"></div>
+        </section>
+
+        <section data-layout="dialogue"
+                 data-dialogue="Diese Folie hat absichtlich keinen Sprecher und kein Avatarbild. Der Dialog bleibt sichtbar, aber die Sprecherbox bleibt weg."
+                 data-task="Test: Folie ohne Speaker und ohne Avatar."
+                 data-after-ready-delay="1"
+                 data-audio-1-type="tts"
+                 data-audio-1-phase="start"
+                 data-audio-1-text-from="dialogue"
+                 data-audio-1-voice="de-DE-KatjaNeural">
+            <div class="scene"></div>
+        </section>
+
+        <section data-layout="dialogue"
+                 data-speaker="Elli"
+                 data-avatar="pics/elli.jpg"
+                 data-side="right"
+                 data-dialogue="{player}, eine Sache fehlt noch: Die Geschenkcodes müssen eindeutig sein. Kombiniere die richtigen Zellen, damit jede Lieferung ihren Code bekommt."
+                 data-task="Erstelle die fehlenden Geschenkcodes. Tipp: =A10&amp;&quot;-&quot;&amp;B10"
+                 data-audio-1-type="tts"
+                 data-audio-1-phase="start"
+                 data-audio-1-text-from="dialogue"
+                 data-audio-1-voice="de-DE-KatjaNeural">
+            <div class="scene"></div>
+        </section>
+
+        <section data-layout="none"
+                 data-background="pics/snow.jpg"
+                 data-cscape-check="check_combo_codes_done"
+
+                 data-text-mode="none"
+                 data-dialogue="Testfolie sieben: Du siehst keinen Dialog und keinen Sprecher. Trotzdem wird diese Stimme abgespielt."
+                 data-task=""
+                 data-after-ready-delay="1"
+                 data-audio-1-type="tts"
+                 data-audio-1-phase="start"
+                 data-audio-1-text-from="dialogue"
+                 data-audio-1-voice="de-DE-KatjaNeural">
+            <div class="scene"></div>
+        </section>
+
+        <section data-layout="dialogue"
+                 data-speaker="Weihnachtsmann"
+                 data-avatar="pics/weihnachtsmann.jpg"
+                 data-side="left"
+                 data-background="pics/snow.jpg"
+                 data-text-mode="instant"
+                 data-dialogue="Ho ho ho! Das geheime Geschenkregister ist vollständig repariert. Weihnachten ist gerettet. Danke, {player}!"
+                 data-task="Geschafft: Du hast Namen gespeichert, Formeln berechnet, Summen geprüft, Codes gebaut und die Tests bestanden."
+                 data-stop-music="true"
+                 data-audio-1-src="sounds/hohoho.mp3"
+                 data-audio-1-phase="before-text"
+                 data-audio-1-volume="0.85"
+                 data-audio-2-type="tts"
+                 data-audio-2-phase="start"
+                 data-audio-2-text="Abschlussmeldung: Das Geschenkregister ist sicher. Weihnachten kann kommen."
+                 data-audio-2-voice="de-DE-ConradNeural"
+                 data-audio-3-src="sounds/bells.mp3"
+                 data-audio-3-phase="after-text"
+                 data-audio-3-volume="0.75">
+            <div class="scene"></div>
+        </section>
+
+    </div>
+</div>
+
+
+
+<script src="reveal.js/dist/reveal.js"></script>
+<script src="revealjs-cscape.js"></script>
+
+<script>
+    (() => {
+        let storyPlayerName = "Spieler";
+        let playerNameLoaded = false;
+
+        async function fetchWithTimeout(url, timeoutMs = 3000) {
+            const controller = new AbortController();
+            const timeout = window.setTimeout(() => controller.abort(), timeoutMs);
+
+            try {
+                return await fetch(url, {
+                    signal: controller.signal,
+                    cache: "no-store"
+                });
+            } finally {
+                window.clearTimeout(timeout);
+            }
+        }
+
+        async function loadPlayerNameFromDataStore() {
+            if (playerNameLoaded) return storyPlayerName;
+
+            try {
+                const response = await fetchWithTimeout("http://localhost:5000/game_data_store", 3000);
+                if (!response.ok) throw new Error(`HTTP ${response.status}`);
+
+                const data = await response.json();
+                const name = String(data.name || data.player || data.playerName || "").trim();
+                storyPlayerName = name || "Spieler";
+            } catch (error) {
+                console.warn("[CSCAPE] Could not load player name from data store:", error.message);
+                storyPlayerName = "Spieler";
+            }
+
+            playerNameLoaded = true;
+            return storyPlayerName;
+        }
+
+        function formatStoryText(text) {
+            return String(text || "").replaceAll("{player}", storyPlayerName || "Spieler");
+        }
+
+        window.CSCAPE_STORY = {
+            blockNavigationUntilReady: true,
+            ttsUrl: "http://localhost:8765/tts",
+            defaultVoice: "de-DE-KatjaNeural",
+            defaultTtsRate: "+0%",
+            defaultTtsPitch: "+0Hz",
+
+            defaultMusic: "sounds/christmas.mp3",
+
+            musicVolume: 0.24,
+            soundVolume: 0.82,
+            typeSpeed: 24,
+            defaultLayout: "dialogue",
+            defaultTextMode: "type",
+            audioHintText: "Klick für Musik & Sounds",
+
+            formatText: formatStoryText,
+
+            async beforeSlide() {
+                await loadPlayerNameFromDataStore();
+            }
+        };
+    })();
+</script>
+
+<script src="story-styles/cscape-story.js"></script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", () => {
+        window.CSCAPE_STORY_API.init();
+
+        Reveal.initialize({
+            hash: false,
+            controls: false,
+            progress: false,
+            transition: "none",
+            center: false,
+            keyboard: {
+                27: () => alert("Close with Ctrl+W"),
+                83: null
+            },
+            plugins: [
+                RevealCscape
+            ]
+        });
+    });
+</script>
+</body>
+</html>
