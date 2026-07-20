@@ -83,6 +83,10 @@ http://0.0.0.0:8765/tts
 
 ## Google Sheet vorbereiten
 
+### 0. Anmelden
+
+melde dich bei Google Sheet an mit einem "Wegwerfaccount", also einem Account, der keine wichtigen Informationen oder Passwörter enthält, da der Account den Spielenden zum Erfüllen der Aufgaben bereitgestellt werden soll.
+
 ### 1. Neues Spreadsheet erstellen
 
 Erstelle ein Google Spreadsheet mit dem Namen:
