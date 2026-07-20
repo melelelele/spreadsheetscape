@@ -1,7 +1,6 @@
 # SheetScape — Spreadsheet Escape Room mit CSCape
 
-Dieses Modul steuert Story, Fortschritt, Sound, dynamische Sprachausgabe und Darstellung des Escape Rooms.
-
+Dieser Escaperoom soll spielerisch die Funktionsweise von Google-Spreadsheets vermitteln.
 ---
 
 ## Konzept
